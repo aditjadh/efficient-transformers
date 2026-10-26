@@ -244,6 +244,7 @@ def blocked_kv_attention_forward(
     else:
         if ctx_len is None:
             raise ValueError("`ctx_len` is required for blocked KV attention.")
+        past_seen_tokens = ctx_len
         kv_block_size = -(-ctx_len // num_kv_blocks)
 
     if hasattr(module, "config"):
