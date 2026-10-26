@@ -1601,7 +1601,7 @@ class _QEffAutoModelForImageTextToTextDualQPC:
         # Note: SamplerTransform should be applied after all other transforms
         # are done. The role of the sampler is to just add nodes at the output of the
         # previous transform function.
-        self.lang_model.model.qaic_config = qaic_config
+        self.model.qaic_config = qaic_config
         self.lang_model.model, _ = SamplerTransform.apply(self.lang_model.model, qaic_config, **kwargs)
 
     @classmethod

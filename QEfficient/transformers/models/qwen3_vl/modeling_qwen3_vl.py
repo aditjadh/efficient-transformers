@@ -963,7 +963,7 @@ class QEffQwen3VLForConditionalGeneration(Qwen3VLForConditionalGeneration):
         lang_inputs["vision_embeds"] = torch.zeros(
             (inputs_shapes["vision_embeds"]), dtype=self.model.config.torch_dtype
         )
-        qaic_config = getattr(self.model, "qaic_config", None)
+        qaic_config = getattr(self, "qaic_config", None)
         blocking_mode = qaic_config.get("blocking_mode") if qaic_config is not None else None
         if blocking_mode is not None and "paged" in blocking_mode:
             num_kv_blocks = qaic_config["num_kv_blocks"]
@@ -1157,10 +1157,10 @@ class QEffQwen3VLForConditionalGeneration(Qwen3VLForConditionalGeneration):
             if full_batch_size:
                 lang_prefill["full_batch_exec_size"] = full_batch_size
 
-            qaic_config = getattr(self.model, "qaic_config", None)
+            qaic_config = getattr(self, "qaic_config", None)
             blocking_mode = qaic_config.get("blocking_mode") if qaic_config is not None else None
             if blocking_mode is not None and "paged" in blocking_mode:
-                num_kv_blocks = self.model.qaic_config["num_kv_blocks"]
+                num_kv_blocks = self.qaic_config["num_kv_blocks"]
                 lang_prefill["num_kv_blocks"] = num_kv_blocks
                 lang_prefill["total_num_kv_blocks"] = kv_cache_batch_size * num_kv_blocks
                 lang_prefill["kv_block_size"] = -(-ctx_len // num_kv_blocks)
@@ -1179,10 +1179,10 @@ class QEffQwen3VLForConditionalGeneration(Qwen3VLForConditionalGeneration):
             else:
                 lang_decode["batch_size"] = kv_cache_batch_size
 
-            qaic_config = getattr(self.model, "qaic_config", None)
+            qaic_config = getattr(self, "qaic_config", None)
             blocking_mode = qaic_config.get("blocking_mode") if qaic_config is not None else None
             if blocking_mode is not None and "paged" in blocking_mode:
-                num_kv_blocks = self.model.qaic_config["num_kv_blocks"]
+                num_kv_blocks = self.qaic_config["num_kv_blocks"]
                 lang_decode["num_kv_blocks"] = num_kv_blocks
                 lang_decode["total_num_kv_blocks"] = kv_cache_batch_size * num_kv_blocks
                 lang_decode["kv_block_size"] = -(-ctx_len // num_kv_blocks)
@@ -1223,7 +1223,7 @@ class QEffQwen3VLForConditionalGeneration(Qwen3VLForConditionalGeneration):
             2: "ctx_len",
         }
 
-        qaic_config = getattr(self.model, "qaic_config", None)
+        qaic_config = getattr(self, "qaic_config", None)
         blocking_mode = qaic_config.get("blocking_mode") if qaic_config is not None else None
         if blocking_mode is not None and "paged" in blocking_mode:
             lang_dynamic_axes["block_table"] = {0: "batch_size"}
