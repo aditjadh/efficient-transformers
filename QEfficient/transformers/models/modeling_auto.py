@@ -4242,7 +4242,6 @@ class QEFFAutoModelForCausalLM(QEFFBaseModel):
                 if isinstance(num_blocks, int) and key in ["num_kv_blocks", "num_q_blocks"]:
                     max_blocks = max(max_blocks, num_blocks)
             block_size = -(-seq_len // max_blocks)
-            for_loop_number_forced_by_blocking = block_size * max_blocks
 
         if expert_parallel_is_triggered:
             seq_len = (for_loop_number_forced_by_expert_parallel * seq_len) // math.gcd(
